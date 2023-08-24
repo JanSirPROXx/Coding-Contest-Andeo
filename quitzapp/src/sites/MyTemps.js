@@ -2,6 +2,7 @@ import { click } from '@testing-library/user-event/dist/click';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Quiz from './Quiz';
+import Key from './globalVar/Key'; //Global var to handle quiz key
 
 const MyTemps = () => {
     const [data, getData] = useState([]);
@@ -30,19 +31,25 @@ const MyTemps = () => {
         for(let i = 0; i < myTemplates.length; i++){
             let template = document.createElement('button');
             template.innerHTML = myTemplates[i].name;
-            //let ref = document.createElement('a');
-            //ref.href = '/quiz';
-            //doc.appendChild(ref);
-            //ref.appendChild(template);
-            template.addEventListener('click', handleQuiz);
+            let ref = document.createElement('a');
+            ref.href = '/quiz';
+            ref.id = myTemplates[i].name;
+            doc.appendChild(ref);
+            ref.appendChild(template);
+            ref.addEventListener('click', handleQuiz);
             
-            doc.appendChild(template);
+            
         }
     }, [])
 
-    function handleQuiz(){ //Quiz wird in quiz div eingefügt
+    function handleQuiz(el){ //Quiz wird in quiz div eingefügt
         console.log("Handeling Quiz");
-        let doc = document.getElementById('quiz');
+        let key = el.currentTarget.id;
+        console.log("Global Key: -> " + key);
+        Key = key;
+        
+        
+        
 
     }
 
@@ -65,9 +72,7 @@ const MyTemps = () => {
             <div id='templates'>
 
             </div>
-            <div id='quiz'>
-
-            </div>
+            
 
 
         </div>
