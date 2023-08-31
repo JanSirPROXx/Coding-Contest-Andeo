@@ -1,0 +1,45 @@
+/* myTemps.css */
+
+/* Common styles */
+.button-style {
+    margin: 4px;
+    padding: 8px;
+    background-color: #0F62FE;
+    border: 2px solid #0F62FE;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  
+  /* Additional styles specific to the MyTemps component */
+  #edit {
+    margin: 20px 0;
+  }
+  
+  #editButton {
+    margin-right: 10px;
+  }
+  
+  #templates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  #templates a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  #templates button {
+    margin: 0;
+    padding: 8px 16px;
+    background-color: #001D6C;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  /* Add your custom styles here if needed */
+  

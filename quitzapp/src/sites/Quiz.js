@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './quiz.css'; //styling
 
 
 const Quiz = () => {
@@ -18,6 +19,48 @@ const Quiz = () => {
         
 
     }, [])
+
+    let handleQuestion = (index) =>{
+        
+        let isSentenceQuestion = true; //If answer contains * its true,
+
+        let txt = data.questions[index].question;
+        let gaptxt = data.questions[index].answer;
+        let gapSplit = gaptxt.split('*');
+        
+        //Checker if this is a normal vocy ques or a vocy ques in a sentence
+        if(gapSplit.length == 1){
+            isSentenceQuestion = false;
+            return {
+                isSentence: isSentenceQuestion
+            }
+        }
+
+        let words = gapSplit.filter((el) => {
+            if(el.includes(' ')){ //If txt part contains an space its part of the question sentence and not the gap word
+        
+            }else{
+                return el;
+            }
+        });
+        //let sentence = txt.replace(word[1], "______");
+        let newSentence = "";
+        let res = {
+            sentence: txt,
+            sentence2: newSentence,
+            answer: [],
+            isSentence: isSentenceQuestion
+        }
+        for(let i = 0; i < words.length; i++){
+            newSentence = gaptxt.replace(words[i], "______");
+            res.answer.push(words[i]);
+        }
+        
+        
+       
+
+        return res;
+    }
     
     function handleQuiz(){
 
@@ -38,8 +81,61 @@ const Quiz = () => {
                 doc.appendChild(title);
             }
             
+            //Split Sentence and Ques ////////////////////////////////////////////////////////
+            let res = handleQuestion(questionNr);
+            if(res.isSentence){
 
-            let question = document.createElement('h3');
+                //Full txt
+                let sen1 = document.createElement('h3');
+                sen1.innerHTML = res.sentence;
+                //Gap Txt
+                let sen2 = document.createElement('h3');
+                sen2.innerHTML = res.sentence2;
+                
+                
+                
+
+                let button = document.createElement('button');
+
+                const index = questionNr; 
+
+                button.innerText = "Check Answer"; // add plural 'Check Answers'
+
+                button.addEventListener('click', (el) => { //Check every answer
+                    let richtig = []; //If anser is right richtig.lenght == res.answer.lenght
+                    for(let i = 0; i < res.answer.length; i++){
+                        let ele = document.getElementById(i + '*' + questionNr);
+                        if(ele.value == res.answer[i]){
+                            ele.classList.add('correct');
+                            richtig.push(ele.value);
+                        }
+                    }
+                    if(richtig.length == res.answer.length){
+                        el.currentTarget.classList.add('correct'); //adds green background color
+                        handleQuiz();
+                        //alert('Correct');
+                    }else{
+                        alert('False');
+                    }
+                    /*
+                    if(questionNr == index){
+                        //handleQuiz();
+                    }*/
+                });
+                
+                doc.appendChild(sen1);
+                doc.appendChild(sen2);
+                for(let i = 0; i < res.answer.length; i++){
+                    let answer = document.createElement('input');
+                    answer.type = 'text';
+                    answer.id = i + '*' + questionNr;
+                    answer.className('answer');
+                    doc.appendChild(answer);
+                }
+                doc.appendChild(button);
+
+            }else{////////////////////// normal vocy question
+                let question = document.createElement('h3');
 
             let answer = document.createElement('input');
 
@@ -49,11 +145,16 @@ const Quiz = () => {
 
             button.innerText = "Check Answer";
 
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (el) => {
                 if(answer.value == data.questions[index].answer){
-                    alert('Correct');
+                    el.currentTarget.classList.add('correct'); //adds green background color
+                    handleQuiz();
+                    //alert('Correct');
                 }else{
                     alert('False');
+                }
+                if(questionNr == index){
+                    //handleQuiz();
                 }
             });
             question.innerHTML = data.questions[index].question;
@@ -63,9 +164,15 @@ const Quiz = () => {
             doc.appendChild(answer);
             doc.appendChild(button);
 
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+
+            
             questionNr++;
         }catch{
-            alert("Keine Fragen mehr!");
+            //alert("Keine Fragen mehr!");
+            //questionNr = 0; //back to start
+
         }
 
     }

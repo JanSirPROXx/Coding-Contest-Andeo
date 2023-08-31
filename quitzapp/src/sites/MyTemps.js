@@ -3,6 +3,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import Quiz from './Quiz';
 import {setGlobalState, useGlobalState} from './globalVar/GlobalVar';
+import './myTemps.css';
 
 
 const MyTemps = () => {
@@ -92,6 +93,13 @@ const MyTemps = () => {
             </a>
 
             <h1>MyTemps</h1>
+            <div id='edit'>
+                <button id='editButton'>Edit Quiz</button>
+                <a href='/create'>
+                    <button id='createNewQuiz'>Create new Quiz</button>
+                </a>
+
+            </div>
 
             <div id='templates'></div>
             <div id='quiz'></div>
