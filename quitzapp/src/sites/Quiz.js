@@ -47,7 +47,7 @@ const Quiz = () => {
         let newSentence = "";
         let res = {
             sentence: txt,
-            sentence2: newSentence,
+            sentence2: null,
             answer: [],
             isSentence: isSentenceQuestion
         }
@@ -55,6 +55,7 @@ const Quiz = () => {
             newSentence = gaptxt.replace(words[i], "______");
             res.answer.push(words[i]);
         }
+        res.sentence2 = newSentence; //insert sen2
         
         
        
@@ -66,7 +67,7 @@ const Quiz = () => {
 
         try{
 
-    
+            const index = questionNr;
             //debug
             console.log("Start Quiz");
             console.log(data);
@@ -84,55 +85,77 @@ const Quiz = () => {
             //Split Sentence and Ques ////////////////////////////////////////////////////////
             let res = handleQuestion(questionNr);
             if(res.isSentence){
-
+                 //idk
                 //Full txt
                 let sen1 = document.createElement('h3');
                 sen1.innerHTML = res.sentence;
                 //Gap Txt
                 let sen2 = document.createElement('h3');
-                sen2.innerHTML = res.sentence2;
+                sen2.innerHTML = res.sentence2; console.log(res.sentence2, ' Sentence 2 res -> ', res); //debug
                 
                 
                 
+                //Check btn
+                let btn = document.createElement('button');
+                btn.innerText = "Check Answer"; // add plural 'Check Answers'
+                
 
-                let button = document.createElement('button');
-
-                const index = questionNr; 
-
-                button.innerText = "Check Answer"; // add plural 'Check Answers'
-
-                button.addEventListener('click', (el) => { //Check every answer
-                    let richtig = []; //If anser is right richtig.lenght == res.answer.lenght
-                    for(let i = 0; i < res.answer.length; i++){
-                        let ele = document.getElementById(i + '*' + questionNr);
-                        if(ele.value == res.answer[i]){
-                            ele.classList.add('correct');
-                            richtig.push(ele.value);
+                
+                btn.addEventListener('click', (el) => { //Check every answer
+                    try{
+                        let richtig = []; //If anser is right richtig.lenght == res.answer.lenght
+                        for(let i = 0; i < res.answer.length; i++){
+                            console.log(res.answer[i], ' Antowrt für', i, ' res = ', res); //debug
+                            let ele = document.getElementById(i + '*' + index); console.log(i + '*' + index);
+                            console.log(ele, ' ele.value'); //debug
+                            if(ele.value == res.answer[i]){
+                                ele.classList.add('correct');
+                                richtig.push(ele.value);
+                            }
                         }
+                        if(richtig.length == res.answer.length){
+                            el.currentTarget.classList.add('correct'); //adds green background color
+                            handleQuiz();
+                            //alert('Correct');
+                        }else{
+                            alert('False');
+                        }
+                        
+                        if(questionNr == index){
+                            //handleQuiz();
+                        }
+                    }catch(e){
+                        console.log('Check answer Error: ', e);
                     }
-                    if(richtig.length == res.answer.length){
-                        el.currentTarget.classList.add('correct'); //adds green background color
-                        handleQuiz();
-                        //alert('Correct');
-                    }else{
-                        alert('False');
-                    }
-                    /*
-                    if(questionNr == index){
-                        //handleQuiz();
-                    }*/
+                    
                 });
+
+                
+
+                
+
+                
                 
                 doc.appendChild(sen1);
                 doc.appendChild(sen2);
+                
                 for(let i = 0; i < res.answer.length; i++){
-                    let answer = document.createElement('input');
-                    answer.type = 'text';
-                    answer.id = i + '*' + questionNr;
-                    answer.className('answer');
-                    doc.appendChild(answer);
+                    //console.log('Start inserting input-boxes');
+                    try{
+                        let answer = document.createElement('input');
+                        answer.type = 'text';
+                        answer.id = i + '*' + questionNr;
+                        //answer.className('answer');
+                        doc.appendChild(answer);
+                        //console.log('end inserting for ' + i);
+                    }catch(e){
+                        console.log('Error inserting for ' + i + 'error code: ', e);
+                    }
+                    
                 }
-                doc.appendChild(button);
+                doc.appendChild(btn);
+
+                
 
             }else{////////////////////// normal vocy question
                 let question = document.createElement('h3');
@@ -141,7 +164,7 @@ const Quiz = () => {
 
             let button = document.createElement('button');
 
-            const index = questionNr; //..
+             //..
 
             button.innerText = "Check Answer";
 
