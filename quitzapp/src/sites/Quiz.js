@@ -65,7 +65,11 @@ const Quiz = () => {
     
     function handleQuiz(){
 
+        //Check for questions
+        
+
         try{
+            let res = handleQuestion(questionNr);
 
             const index = questionNr;
             //debug
@@ -80,10 +84,11 @@ const Quiz = () => {
                 let title = document.createElement('h2');
                 title.innerText = data.name;
                 doc.appendChild(title);
+                doc.removeChild(document.getElementById('startQuiz')); //remove start btn
             }
             
             //Split Sentence and Ques ////////////////////////////////////////////////////////
-            let res = handleQuestion(questionNr);
+            
             if(res.isSentence){
                  //idk
                 //Full txt
@@ -98,8 +103,21 @@ const Quiz = () => {
                 //Check btn
                 let btn = document.createElement('button');
                 btn.innerText = "Check Answer"; // add plural 'Check Answers'
-                
 
+                //Skip btn
+                let skipBtn = document.createElement('button');
+                skipBtn.innerText = "Skip";
+
+                
+                skipBtn.addEventListener('click', (el) => {
+                    for(let i = 0; i < res.answer.length; i++){
+                        //get Inputfields
+                        let ele = document.getElementById(i + '*' + index);
+                        ele.value = res.answer[i];
+                        
+                    }
+                    handleQuiz();
+                });
                 
                 btn.addEventListener('click', (el) => { //Check every answer
                     try{
@@ -138,6 +156,7 @@ const Quiz = () => {
                 
                 doc.appendChild(sen1);
                 doc.appendChild(sen2);
+
                 
                 for(let i = 0; i < res.answer.length; i++){
                     //console.log('Start inserting input-boxes');
@@ -154,19 +173,28 @@ const Quiz = () => {
                     
                 }
                 doc.appendChild(btn);
+                doc.appendChild(skipBtn);
 
                 
 
             }else{////////////////////// normal vocy question
-                let question = document.createElement('h3');
+            let question = document.createElement('h3');
 
             let answer = document.createElement('input');
 
             let button = document.createElement('button');
 
+            let skipButton = document.createElement('button');
+
              //..
 
-            button.innerText = "Check Answer";
+            button.innerText = 'Check Answer';
+            skipButton.innerText = 'Skip';
+
+            skipButton.addEventListener('click', (el) => {
+                answer.value = data.questions[index].answer;
+                handleQuiz();
+            });
 
             button.addEventListener('click', (el) => {
                 if(answer.value == data.questions[index].answer){
@@ -186,6 +214,7 @@ const Quiz = () => {
             doc.appendChild(question);
             doc.appendChild(answer);
             doc.appendChild(button);
+            doc.appendChild(skipButton);
 
             }
             ////////////////////////////////////////////////////////////////////////////////
@@ -193,8 +222,20 @@ const Quiz = () => {
             
             questionNr++;
         }catch{
-            //alert("Keine Fragen mehr!");
-            //questionNr = 0; //back to start
+            //End of quiz, no more questions available:
+            let doc = document.getElementById('quiz'); //Ellements ->
+            let ende = document.createElement('h3'); let playAgain = document.createElement('button'); let backToTemp = document.createElement('button');
+            let aRef = document.createElement('a'); aRef.href = '/mytemps';
+            //inner
+            ende.innerText = "End of Quiz"; playAgain.innerText = "Play Again"; backToTemp.innerText = "Back to Templates";
+
+            //add EventListerer
+            playAgain.addEventListener('click', () => {
+                window.location.reload();
+            }); 
+            
+            doc.appendChild(ende); doc.appendChild(aRef); aRef.appendChild(backToTemp); doc.appendChild(playAgain);
+            
 
         }
 
@@ -215,7 +256,7 @@ const Quiz = () => {
             <h1>Quiz</h1>
         </div>
         <div id='quiz'>
-            <button onClick={handleQuiz}>Start Quiz</button>
+            <button onClick={handleQuiz} id='startQuiz'>Start Quiz</button>
         </div>
         </>
     );
