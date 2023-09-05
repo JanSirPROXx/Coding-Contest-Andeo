@@ -21,12 +21,13 @@ const Quiz = () => {
     }, [])
 
     let handleQuestion = (index) =>{
-        
+        console.log(index + ' handleQuestion index'); //debug 
+
         let isSentenceQuestion = true; //If answer contains * its true,
 
         let txt = data.questions[index].question;
         let gaptxt = data.questions[index].answer;
-        let gapSplit = gaptxt.split('*');
+        let gapSplit = gaptxt.split('*');               console.log(gaptxt.split('*'), 'Splited gab arry');//debug
         
         //Checker if this is a normal vocy ques or a vocy ques in a sentence
         if(gapSplit.length == 1){
@@ -37,11 +38,19 @@ const Quiz = () => {
         }
 
         let words = gapSplit.filter((el) => {
+            //buggy
+            
             if(el.includes(' ')){ //If txt part contains an space its part of the question sentence and not the gap word
         
             }else{
                 return el;
             }
+            
+            /*
+            if(el.includes(' ')){
+                return el
+            }*/
+
         });
         //let sentence = txt.replace(word[1], "______");
         let newSentence = "";
@@ -51,10 +60,15 @@ const Quiz = () => {
             answer: [],
             isSentence: isSentenceQuestion
         }
+        newSentence = gaptxt
         for(let i = 0; i < words.length; i++){
-            newSentence = gaptxt.replace(words[i], "______");
+            //console.log(words.length, ' :Amount ', words, " arry"); //debug
+            newSentence = newSentence.replace(('*'+words[i]+'*'), "______");
             res.answer.push(words[i]);
+
+            //console.log(replaced); //debug
         }
+        
         res.sentence2 = newSentence; //insert sen2
         
         
@@ -66,21 +80,22 @@ const Quiz = () => {
     function handleQuiz(){
 
         //Check for questions
-        
+        let index = questionNr;
 
         try{
             let res = handleQuestion(questionNr);
 
-            const index = questionNr;
+            
             //debug
-            console.log("Start Quiz");
-            console.log(data);
+            
+            //console.log(data);
             //
 
 
             //first session
             let doc = document.getElementById('quiz');
             if(questionNr == 0){
+                console.log("Start Quiz");
                 let title = document.createElement('h2');
                 title.innerText = data.name;
                 doc.appendChild(title);
@@ -90,6 +105,7 @@ const Quiz = () => {
             //Split Sentence and Ques ////////////////////////////////////////////////////////
             
             if(res.isSentence){
+                console.log('sentence')//debug
                  //idk
                 //Full txt
                 let sen1 = document.createElement('h3');
@@ -148,12 +164,36 @@ const Quiz = () => {
                     
                 });
 
+                /*
+{name: "TestBug1", description: "sa",…}
+description
+: 
+"sa"
+name
+: 
+"TestBug1"
+questions
+: 
+[{question: "Question", answer: "Question"}, {question: "Question", answer: "Question"},…]
+0
+: 
+{question: "Question", answer: "Question"}
+1
+: 
+{question: "Question", answer: "Question"}
+2
+: 
+{question: "Question", answer: "Question"}
+3
+: 
+{question: "Sentence", answer: "Sentence in Sternen *Sentence*"}
+4
+: 
+{question: "Sentence", answer: "Sentence in *Sentence* und *Sentence*"}
                 
-
+                */
                 
-
-                
-                
+                console.log(sen1.textContent, " + ", sen2.textContent, " Index = ", index); //debug
                 doc.appendChild(sen1);
                 doc.appendChild(sen2);
 

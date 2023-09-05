@@ -38,12 +38,13 @@ const MyTemps = () => {
         for (let i = 0; i < myTemplates.length; i++) {
             let template = document.createElement('button');
             template.innerHTML = myTemplates[i].name;
+            template.className = 'tempBtn';
 
             // V1
-
             let ref = document.createElement('a');
             ref.href = '/quiz'; // Zu früh auf /quiz umgeleitet, so kann GlobalVar nicht festgelegt werden
             ref.id = myTemplates[i].name;
+            ref.className = 'refTag';       //To change href
             console.log(myTemplates[i].name);
             doc.appendChild(ref);
             ref.appendChild(template);
@@ -83,6 +84,66 @@ const MyTemps = () => {
 
     }
 
+    //const sleep = ms => new Promise(r => setTimeout(r, ms)); //Time.sleep
+    let inEdit = false;
+    
+    function editQuiz(){
+        //let info = document.createElement('h4'); info.textContent = 'EditMode = 0N, click on a template to edit'; let infoDiv = document.getElementById('info');
+        inEdit = !inEdit;
+        if(inEdit){
+            console.log('editQuiz');
+            // insert label
+            /*
+            try{
+                infoDiv.appendChild(info);
+            }catch(e){console.log(e);}*/
+           
+            
+
+            //1. Change colors, evt. animation
+            let elTemps = document.getElementsByClassName('tempBtn');
+    
+            for (let i = 0 ; i < elTemps.length; i++){
+                elTemps[i].classList.add('heartbeat');
+                //elTemps[i].className = 'vibrate-1'
+            }
+            //2. Change href to /edit
+            let refTag = document.getElementsByClassName('refTag');
+            for (let i = 0 ; i < elTemps.length; i++){
+                refTag[i].href = '/edit';
+            }
+        }else{
+            console.log('editQuiz');
+            //remove tag
+            /*
+            try{
+                infoDiv.removeChild(info);
+            }catch(e){console.log(e);}*/
+
+            //1. Change colors, evt. animation
+            let elTemps = document.getElementsByClassName('tempBtn');
+    
+            for (let i = 0 ; i < elTemps.length; i++){
+                elTemps[i].classList.remove('heartbeat');
+                //elTemps[i].className = 'vibrate-1'
+            }
+            //2. Change href to /edit
+            let refTag = document.getElementsByClassName('refTag');
+            for (let i = 0 ; i < elTemps.length; i++){
+                refTag[i].href = '/quiz';
+            }
+        }
+
+
+
+        //0. Debug
+        
+
+        //3 add Delet button (insede the quiz btn)
+
+        
+    }
+
 
     return (
         <div>
@@ -94,13 +155,15 @@ const MyTemps = () => {
 
             <h1>MyTemps</h1>
             <div id='edit'>
-                <button id='editButton'>Edit Quiz</button>
+                <button id='editButton' onClick={editQuiz}>
+                    Edit Mode   
+                </button>
                 <a href='/create'>
                     <button id='createNewQuiz'>Create new Quiz</button>
                 </a>
 
             </div>
-
+            <div id='info'></div>
             <div id='templates'></div>
             <div id='quiz'></div>
 

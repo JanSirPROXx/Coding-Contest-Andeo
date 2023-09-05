@@ -34,6 +34,7 @@ const CreateQuitz = () => {
 
         doc.appendChild(question);
         doc.appendChild(answer);
+        doc.appendChild(document.createElement('br'));
     }
 
     let addQuestionSentence = () => {
@@ -57,6 +58,7 @@ const CreateQuitz = () => {
 
         doc.appendChild(sentence1);
         doc.appendChild(sentence2);
+        doc.appendChild(document.createElement('br'));
 
     }
     /* //Methode 1
@@ -88,14 +90,14 @@ const CreateQuitz = () => {
         let answers = document.getElementsByClassName('ans');
         // Sentences
         let sentence1 = document.getElementsByClassName('sen1');
-        
+
         let sentence2 = document.getElementsByClassName('sen2');
 
 
         let data = {
             name: name,
             description: description,
-            questions: [],
+            questions: []
         }
 
         for (let i = 0; i < questions.length; i++) {
@@ -105,13 +107,13 @@ const CreateQuitz = () => {
         // upload other
         for (let i = 0; i < sentence1.length; i++) {
             data.questions.push({question: sentence1[i].value, answer: sentence2[i].value});
-            //data.sentence1.push({sentence1: sentence1[i].value, sentence2: sentence2[i].value});
+            // data.sentence1.push({sentence1: sentence1[i].value, sentence2: sentence2[i].value});
 
         }
         console.log(data); // debug
         setData(data);
     }
-    
+
 
     // Join every sentence with the mulitble answers (becaus there are multible anserwers for one sentence)
 
@@ -122,69 +124,86 @@ const CreateQuitz = () => {
 
 
     return (
-        <div>
+        <>
+            <div style={bgPic}>
 
-            <a href='/'>
-                <button>back Home</button>
-            </a>
-            <h1>CreateQuitz</h1>
+                <h1>CreateQuitz</h1>
+
+                <div style={maindiv}>
+
+                    <a href='/'>
+                        <button>back Home</button>
+                    </a>
 
 
-            <div>
-                <label htmlFor='name'>Name:</label>
-                <input type='text' id='name'
-                    style={inputStyle}></input>
-                <Popup trigger={
-                        <button>?</button>
-                    }
-                    position="right center">
-                    <div>Tippe einen Namen für dein Quiz/Lernset ein.</div>
-                </Popup>
-            </div>
-            <div>
-                <label htmlFor='description'>Description:</label>
-                <input type='text' id='description'
-                    style={inputStyle}></input>
-                <Popup trigger={
-                        <button>?</button>
-                    }
-                    position="right center">
-                    <div>Gib deinem Quiz/Lernset eine Beschreibung.</div>
-                </Popup>
-            </div>
-            <div style={languageContainerStyle}>
-                <input type='text' placeholder='Language' id='la1'
-                    style={languageInputStyle}></input>
-                <input type='text' placeholder='Language' id='la2'
-                    style={languageInputStyle}></input>
-            </div>
-            <div>
-                <button id='addQuestion'
-                    style={buttonStyle}
-                    onClick={addQuestion}>Add Question</button>
-                <button id='addQuestionSentence'
-                    style={buttonStyle}
-                    onClick={addQuestionSentence}>Add Question Sentence</button>
-                <Popup trigger={
-                        <button>?</button>
-                    }
-                    position="right center">
-                    <div>Gib in die erste Spalte deinen Satz in einer belibigen Sprache ein. Gib in der zweiten Spalte deine übersetzung mit _ für die fehlenden Wörter ein. ALs nächstes gibtst du deine Antworten der reihe nach in die erscheinenden Felder ein.</div>
-                </Popup>
-            </div>
-            <div id='questions-box'></div>
-            <div>
-                <button style={buttonStyle}
-                    onClick={handleSafe}>
-                    Save Template
-                </button>
-            </div>
+                    <div>
+                        <label htmlFor='name'>Name:</label>
+                        <input type='text' id='name'
+                            style={inputStyle}></input>
+                        <Popup trigger={
+                                <button>?</button>
+                            }
+                            position="right center">
+                            <div>Tippe einen Namen für dein Quiz/Lernset ein.</div>
+                        </Popup>
+                    </div>
+                    <div>
+                        <label htmlFor='description'>Description:</label>
+                        <input type='text' id='description'
+                            style={inputStyle}></input>
+                        <Popup trigger={
+                                <button>?</button>
+                            }
+                            position="right center">
+                            <div>Gib deinem Quiz/Lernset eine Beschreibung.</div>
+                        </Popup>
+                    </div>
+                    <div style={languageContainerStyle}>
+                        <input type='text' placeholder='Language' id='la1'
+                            style={languageInputStyle}></input>
+                        <input type='text' placeholder='Language' id='la2'
+                            style={languageInputStyle}></input>
+                    </div>
+                    <div>
+                        <button id='addQuestion'
+                            style={buttonStyle}
+                            onClick={addQuestion}>Add Question</button>
+                        <button id='addQuestionSentence'
+                            style={buttonStyle}
+                            onClick={addQuestionSentence}>Add Question Sentence</button>
+                        <Popup trigger={
+                                <button>?</button>
+                            }
+                            position="right center">
+                            <div>Gib in die erste Spalte deinen Satz in einer belibigen Sprache ein. Gib in der zweiten Spalte deine übersetzung mit _ für die fehlenden Wörter ein. ALs nächstes gibtst du deine Antworten der reihe nach in die erscheinenden Felder ein.</div>
+                        </Popup>
+                    </div>
+                    <div id='questions-box'></div>
+                    <div>
+                        <button style={buttonStyle}
+                            onClick={handleSafe}>
+                            Save Template
+                        </button>
+                    </div>
 
-        </div>
+                </div>
+            </div>
+        </>
 
     );
 
 
+}
+
+const bgPic = {}
+
+const maindiv = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '20px', /* Adjust the padding as needed */
+    backgroundColor: 'rgba(255, 255, 255, 0.8)'
 }
 
 const inputStyle = {
