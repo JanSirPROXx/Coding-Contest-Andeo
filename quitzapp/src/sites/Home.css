@@ -6,6 +6,8 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
+    /*background-image: url('./assets/skyline.jpg');
+    background-size: 100%;*/
 }
 
 .container {
@@ -84,6 +86,8 @@ h1 {
 
 }
 
+
+
 .btn2 {
     /* Rectangle 2 */
 
@@ -110,6 +114,6 @@ h1 {
 
 }
 
-.button:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: #a0a4a6;
 }

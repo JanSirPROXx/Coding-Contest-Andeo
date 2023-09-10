@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import CreateQuitz from './CreateQuitz';
 import './home.css';
 
+
 const Home = () => {
     return (
         <>
@@ -12,9 +13,9 @@ const Home = () => {
                 <div>
                     <div className='createDiv'>
                         <a href='/create'>
-                            <button id='createQuitz' className='btn1 btntxt'
+                            <button id='create Quiz' className='btn1 btntxt'
                                 href={'/create'}>
-                                CreateQuitz
+                                + Lernset
                             </button>
                         </a>
 
@@ -22,19 +23,12 @@ const Home = () => {
                     <div className='tempsDiv'>
                         <a href='/mytemps'>
                             <button id='myQuitzs' className='btn2 btntxt'>
-                                MyTemplates
+                                Meine Lernsets
                             </button>
                         </a>
 
                     </div>
-                    <div className='randomDiv'>
-                        <a href='/randomquiz'>
-                            <button id='randomQuitz' className='btn3 btntxt'>
-                                randomQuitz
-                            </button>
-                        </a>
 
-                    </div>
                 </div>
 
 
@@ -66,3 +60,14 @@ export default Home;
             
         </div>
  */
+
+/*
+        <div className='randomDiv'>
+                        <a href='/randomquiz'>
+                            <button id='randomQuitz' className='btn3 btntxt'>
+                                randomQuitz
+                            </button>
+                        </a>
+
+                    </div>
+        */
